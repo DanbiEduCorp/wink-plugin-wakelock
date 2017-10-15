@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="eduterm-plugin-wakelock"
+        version="1.0.0">
+    <name>wakelock</name>
+    <description>Cordova wakelock Plugin</description>
+
+    <js-module src="www/wakelock.js" name="wakelock">
+        <clobbers target="navigator.wakelock" />
+        <runs/>
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="wakelock">
+                <param name="android-package" value="com.eduterm.wakelock.wakelock" />
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.WAKE_LOCK" />
+        </config-file>
+        <source-file src="src/android/wakelock.java" target-dir="src/com/eduterm/wakelock" />
+    </platform>
+
+</plugin>
