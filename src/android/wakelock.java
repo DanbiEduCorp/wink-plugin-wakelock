@@ -63,6 +63,7 @@ public class wakelock extends CordovaPlugin {
 
             if (mWakeLock.isHeld()) {
                 mWakeLock.release();
+                mWakeLock = null;
                 Log.d(TAG, "WakeLock released");
             }
         }
