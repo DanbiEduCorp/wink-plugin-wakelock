@@ -53,7 +53,7 @@ public class wakelock extends CordovaPlugin {
     }
 
     public void onResume(boolean multitasking) {
-        if (mWakeLock != null && isAquired) {
+        if (mWakeLock != null) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     Window win = cordova.getActivity().getWindow();
