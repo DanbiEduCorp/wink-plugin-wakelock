@@ -20,9 +20,10 @@ import android.util.Log;
 public class wakelock extends CordovaPlugin {
     private static final String TAG = "REMEDU_WAKELOCK";
     private WakeLock mWakeLock;
+    private PowerManager powerManager;
 
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        PowerManager powerManager = (PowerManager) cordova.getActivity().getSystemService(Context.POWER_SERVICE);
+        powerManager = (PowerManager) cordova.getActivity().getSystemService(Context.POWER_SERVICE);
         mWakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP ,
                 "DanbiEduWakeLock");
     }
@@ -38,7 +39,9 @@ public class wakelock extends CordovaPlugin {
         LOG.d(TAG, "aquire");
 
         if (mWakeLock != null) {
-            mWakeLock.acquire();
+            if (!powerManager.isInteractive()) {
+                mWakeLock.acquire();
+            }            
 
             // Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             // intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -50,7 +53,7 @@ public class wakelock extends CordovaPlugin {
     }
 
     public void onResume(boolean multitasking) {
-        if (mWakeLock != null) {
+        if (mWakeLock != null && isAquired) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     Window win = cordova.getActivity().getWindow();
@@ -63,8 +66,10 @@ public class wakelock extends CordovaPlugin {
 
             if (mWakeLock.isHeld()) {
                 mWakeLock.release();
-                mWakeLock = null;
+                // mWakeLock = null;
                 Log.d(TAG, "WakeLock released");
+            } else {
+                Log.d(TAG, "WakeLock not Held, so didn't call release()");
             }
         }
     }
