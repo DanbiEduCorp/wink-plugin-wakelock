@@ -6,13 +6,13 @@ var wakelock = {
         callback = callback || (function() {});
         exec(function(){callback();}, callback, PLUGIN_NAME, 'aquire', []);
     },
-    relaese: function(callback) {
-        callback = callback || (function() {});
-        exec(function(){callback();}, callback, PLUGIN_NAME, 'release', []);
+    relaese: function(successCallback, errorCallback) {
+        errorCallback = errorCallback || (function() {});
+        exec(successCallback, errorCallback, PLUGIN_NAME, 'release', []);
     },
-    isHeld: function(callback) {
-        callback = callback || (function() {});
-        exec(function(){callback();}, callback, PLUGIN_NAME, 'isHeld', []);
+    isHeld: function(successCallback, errorCallback) {
+        errorCallback = errorCallback || (function() {});
+        exec(successCallback, errorCallback, PLUGIN_NAME, 'isHeld', []);
     }
 };
 
