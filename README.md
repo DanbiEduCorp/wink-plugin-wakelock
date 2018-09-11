@@ -14,6 +14,19 @@ navigator.wakelock.aquire(function(err) {
     }
     console.log('aquire success');
 });
+navigator.wakelock.release(function(err) {
+    if (err) {
+        return console.error('release fail', err);
+    }
+    console.log('release success');
+});
+navigator.wakelock.isHeld(function(isHeld) {
+    console.log('release success');
+}, (err) => {
+    console.log('isHeld error', err);
+});
 ```
 
 log 확인하기 : D/REMEDU_WAKELOCK: aquire
+
+## 강제 release, getIsHeld 추가
