@@ -4,6 +4,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.apache.cordova.LOG;
@@ -31,6 +32,28 @@ public class wakelock extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("aquire")) {
             aquire(args, callbackContext);
+        } else if (action.equals("release")) {
+            LOG.d(TAG, "release");
+            boolean flag = false;
+            if (mWakeLock != null) {
+                mWakeLock.release();
+                flag = true;
+            }
+            PluginResult pluginResult = new PluginResult(flag ? PluginResult.Status.OK : PluginResult.Status.ERROR , 0);
+            pluginResult.setKeepCallback(true);
+            callbackContext.sendPluginResult(pluginResult);
+            return true;
+        }else if (action.equals("isHeld")) {
+            LOG.d(TAG, "isHeld");
+            boolean flag = false;
+            if (mWakeLock != null) {
+                flag = true;
+            }
+            
+            PluginResult pluginResult = new PluginResult(flag ? PluginResult.Status.OK : PluginResult.Status.ERROR , flag ? mWakeLock.isHeld() : null);
+            pluginResult.setKeepCallback(true);
+            callbackContext.sendPluginResult(pluginResult);
+            return true;
         }
         return false;
     }
