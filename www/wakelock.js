@@ -6,7 +6,7 @@ var wakelock = {
         callback = callback || (function() {});
         exec(function(){callback();}, callback, PLUGIN_NAME, 'aquire', []);
     },
-    relaese: function(successCallback, errorCallback) {
+    release: function(successCallback, errorCallback) {
         errorCallback = errorCallback || (function() {});
         exec(successCallback, errorCallback, PLUGIN_NAME, 'release', []);
     },
